@@ -125,6 +125,9 @@
     <ClCompile Include="PoolAllocator.cpp" />
     <ClCompile Include="StackAllocator.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="StackAllocator.inl" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
