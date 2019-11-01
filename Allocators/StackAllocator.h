@@ -7,13 +7,13 @@ class StackAllocator
 
 public:
 
-	uint32_t* m_startOfStack;
-	uint32_t* m_topOfStack;
+	T* m_startOfStack;
+	T* m_topOfStack;
 	uint32_t m_maxElements;
 
 	uint32_t m_totalUsage;
 
-	StackAllocator(uint32_t size);
+	StackAllocator(uint32_t capacity);
 	~StackAllocator();
 
 	void pushElementOnStack(const T& element);

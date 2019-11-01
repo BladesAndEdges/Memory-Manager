@@ -4,7 +4,7 @@
 template<typename T>
 StackAllocator<T>::StackAllocator(uint32_t capacity) : m_maxElements(capacity), m_totalUsage(0)
 {
-	m_startOfStack = new uint32_t[m_maxElements];
+	m_startOfStack = new T[m_maxElements];
 	m_topOfStack = m_startOfStack;
 }
 

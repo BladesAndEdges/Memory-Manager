@@ -26,9 +26,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="StackAllocator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DoubleEndedStackAllocator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -41,6 +38,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="StackAllocator.inl">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="DoubleEndedStackAllocator.inl">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>
