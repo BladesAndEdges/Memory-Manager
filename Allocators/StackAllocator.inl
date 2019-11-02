@@ -28,7 +28,6 @@ void StackAllocator<T>::pushElementOnStack(const T& element)
 		m_topOfStack++;
 	}
 
-	//return?? 
 }
 
 template<typename T>

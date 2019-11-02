@@ -39,13 +39,24 @@ int main()
 
 	//std::cout << stack.isEmpty() << std::endl;
 
-	DoubleEndedStackAllocator ds(10);
-	ds.addElementToRightStack(1);
-	ds.addElementToRightStack(2);
-	ds.addElementToRightStack(3);
-	ds.addElementToRightStack(4);
-	ds.addElementToRightStack(5);
-	ds.addElementToRightStack(6);
+	//DoubleEndedStackAllocator ds(10);
+	//ds.addElementToRightStack(1);
+	//ds.addElementToRightStack(2);
+	//ds.addElementToRightStack(3);
+	//ds.addElementToRightStack(4);
+
+	//std::cout << *(ds.m_rightTopOfStack + 1);
+	//ds.addElementToRightStack(5);
+	//ds.addElementToRightStack(6);
+
+	DoubleEndedStackAllocator ds(3);
+	ds.allocateOnTheLeftStack(1);
+	ds.deallocateFromTheLeftStack();
+	ds.allocateOnTheLeftStack(2);
+	ds.deallocateFromTheLeftStack();
+	ds.allocateOnTheLeftStack(3);
+	ds.deallocateFromTheLeftStack();
+	ds.deallocateFromTheLeftStack();
 
 	std::cin.get();
 

@@ -2,36 +2,33 @@
 
 #include <cstdint>
 
-
 class DoubleEndedStackAllocator
 {
 
-	uint32_t* m_leftStartOfStack;
-	uint32_t* m_rightStartOfStack;
-
-	uint32_t* m_leftTopOfStack;
-	uint32_t* m_rightTopOfStack;
-
-	size_t m_maxElements;
-	uint32_t m_totalUsage;
-	uint32_t m_leftOffset;
-	uint32_t m_rightOffset;
-
-	uint32_t* m_startOfStack;
-
 public:
 
-	void addElementToLeftStack(uint32_t element);
-	void addElementToRightStack(uint32_t element);
+	uint32_t* m_buffer;
+	size_t m_totalBufferCapacity;
 
-	//void popElementOffLeftStack();
-	//void popElementOffRightStack();
+	uint32_t m_elementsAllocatedOnLeftStack;
+	uint32_t m_elementsAllocatedOnRightStack;
 
-	//bool isEmpty();
-	//bool lestStackIsEmpty();
-	//bool rightStackIsEmpty();
+	DoubleEndedStackAllocator(size_t bufferCapacity);
 
-	DoubleEndedStackAllocator(size_t capacity);
+	/*Adding elements to the stacks*/
+	void allocateOnTheLeftStack(uint32_t element);
+	void allocateOnTheRightStack(uint32_t element);
+
+
+	/*Removing elements from the stacks*/
+	void deallocateFromTheLeftStack();
+	void deallocateFromTheRightStack();
+
+
+
+	bool isEmpty();
+
+
 	~DoubleEndedStackAllocator();
 };
 

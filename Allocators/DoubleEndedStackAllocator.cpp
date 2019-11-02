@@ -1,93 +1,57 @@
 #include "DoubleEndedStackAllocator.h"
 #include <assert.h>
 
-DoubleEndedStackAllocator::DoubleEndedStackAllocator(size_t capacity) : m_maxElements(capacity),
-																		m_totalUsage(0),
-																		m_leftOffset(0), 
-																		m_rightOffset(0)
+DoubleEndedStackAllocator::DoubleEndedStackAllocator(size_t bufferCapacity) : m_totalBufferCapacity(bufferCapacity),
+																			m_elementsAllocatedOnLeftStack(0),
+																			m_elementsAllocatedOnRightStack(0)
 {
-	m_startOfStack = new uint32_t[m_maxElements];
-	m_leftTopOfStack = m_startOfStack;
-	m_leftStartOfStack = m_startOfStack;
-
-
-	m_rightTopOfStack = m_startOfStack + m_maxElements;
-	m_rightStartOfStack = m_startOfStack + m_maxElements;
+	m_buffer = new uint32_t[m_totalBufferCapacity];
 }
 
-void DoubleEndedStackAllocator::addElementToLeftStack(uint32_t element)
+void DoubleEndedStackAllocator::allocateOnTheLeftStack(uint32_t element)
 {
-	/*Assert we have not exceeded the maximum capacity of the stack*/
-	assert(m_totalUsage < m_maxElements);
+	uint32_t offset = m_totalBufferCapacity - 1;
 
-	/*Assert we would not be attempting to overwrite a location belonging to the other stack*/
-	assert(m_leftStartOfStack != m_rightTopOfStack);
+	/*Check if we've reached the maxium stack capacity*/
+	assert((m_elementsAllocatedOnLeftStack + m_elementsAllocatedOnRightStack) < m_totalBufferCapacity);
 
-	/*If it is the first insertion*/
-	if (m_totalUsage == 0)
-	{
-		/*
-		Store the element given. 
-		Update the total usage for the stack, and for the left half as well.
-		Do not move the pointer, however, as it points to the start of the block of memory
-		allocating the data anyway.
-		*/
-		*(m_leftStartOfStack + m_leftOffset) = element;
-		m_totalUsage++;
-		m_leftOffset++;
-	}
-	/*Further pushes onto the stack increment the pointer*/
-	else
-	{
-		/*
-		Similarly, except now we wish to update the pointer as well.
-		*/
-		*(m_startOfStack + m_leftOffset) = element;
-		m_totalUsage++;
-		m_leftOffset++;
-		m_leftTopOfStack++;
-	}
+	*(m_buffer + m_elementsAllocatedOnLeftStack) = element;
 
+	m_elementsAllocatedOnLeftStack++;
 }
 
-void DoubleEndedStackAllocator::addElementToRightStack(uint32_t element)
+void DoubleEndedStackAllocator::allocateOnTheRightStack(uint32_t element)
+{	
+	uint32_t offset = m_totalBufferCapacity - 1;
+
+	/*Check if we've reached the maximum stack capacity*/
+	assert((m_elementsAllocatedOnLeftStack + m_elementsAllocatedOnRightStack) < m_totalBufferCapacity);
+
+	*(m_buffer + offset - m_elementsAllocatedOnRightStack) = element;
+
+	m_elementsAllocatedOnRightStack++;
+}
+
+void DoubleEndedStackAllocator::deallocateFromTheLeftStack()
 {
-	/*Assert we have not exceeded the maximum capacity of the stack*/
-	assert(m_totalUsage < m_maxElements);
+	assert(m_elementsAllocatedOnLeftStack > 0);
+	m_elementsAllocatedOnLeftStack--;
+}
 
-	/*Assert we would not be attempting to overwrite a location belonging to the other stack*/
-	assert(m_rightTopOfStack != m_leftTopOfStack);
+void DoubleEndedStackAllocator::deallocateFromTheRightStack()
+{
+	assert(m_elementsAllocatedOnRightStack > 0);
+	m_elementsAllocatedOnRightStack--;
+}
 
-	/*If it is the first insertion*/
-	if (m_totalUsage == 0)
-	{
-		/*
-		Store the element given.
-		Update the total usage for the stack, and for the left half as well.
-		Do not move the pointer, however, as it points to the start of the block of memory
-		allocating the data anyway.
-		*/
-		*(m_rightTopOfStack - m_rightOffset) = element;
-		//m_rightTopOfStack--;
-
-		m_totalUsage++;
-		m_rightOffset++;
-	}
-	/*Further pushes onto the stack increment the pointer*/
-	else
-	{
-		/*
-		Similarly, except now we wish to update the pointer as well.
-		*/
-		*(m_rightTopOfStack - m_rightOffset) = element;
-		m_rightTopOfStack--;
-
-		m_totalUsage++;
-		m_rightOffset++;
-	}
-
+bool DoubleEndedStackAllocator::isEmpty()
+{
+	return (m_totalBufferCapacity == 0);
 }
 
 DoubleEndedStackAllocator::~DoubleEndedStackAllocator()
 {
+	delete[] m_buffer;
 }
+
+
