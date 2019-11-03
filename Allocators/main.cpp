@@ -2,18 +2,15 @@
 
 #include "StackAllocator.h"
 #include "DoubleEndedStackAllocator.h"
+#include "PoolAllocator.h"
 
 int main()
 {
 
-	DoubleEndedStackAllocator<int> ds(3);
-	ds.allocateOnTheLeftStack(1);
-	ds.deallocateFromTheLeftStack();
-	ds.allocateOnTheLeftStack(2);
-	ds.deallocateFromTheLeftStack();
-	ds.allocateOnTheLeftStack(3);
-	ds.deallocateFromTheLeftStack();
-
+	PoolAllocator p(3);
+	uint32_t *a = p.allocateElementInPool(0);
+	uint32_t *b = p.allocateElementInPool(1);
+	uint32_t *c = p.allocateElementInPool(2);
+	uint32_t *d = p.allocateElementInPool(3);
 	std::cin.get();
-
 }
