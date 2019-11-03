@@ -120,7 +120,6 @@
     <ClInclude Include="StackAllocator.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DoubleEndedStackAllocator.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PoolAllocator.cpp" />
   </ItemGroup>

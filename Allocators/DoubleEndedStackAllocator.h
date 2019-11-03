@@ -2,12 +2,13 @@
 
 #include <cstdint>
 
+template<typename T>
 class DoubleEndedStackAllocator
 {
 
 public:
 
-	uint32_t* m_buffer;
+	T* m_buffer;
 	size_t m_totalBufferCapacity;
 
 	uint32_t m_elementsAllocatedOnLeftStack;
@@ -16,8 +17,8 @@ public:
 	DoubleEndedStackAllocator(size_t bufferCapacity);
 
 	/*Adding elements to the stacks*/
-	void allocateOnTheLeftStack(uint32_t element);
-	void allocateOnTheRightStack(uint32_t element);
+	void allocateOnTheLeftStack(const T& element);
+	void allocateOnTheRightStack(const T& element);
 
 
 	/*Removing elements from the stacks*/
