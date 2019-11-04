@@ -3,6 +3,8 @@
 #include <cstdint>
 #include <vector>
 
+
+template<typename T>
 class PoolAllocator
 {
 
@@ -10,17 +12,21 @@ public:
 
 	size_t m_blocksInPool;
 
-	uint32_t* m_blocks;
+	T* m_blocks;
 	bool* m_freeBlocks;
 
 	int m_currentlyFreeBlocks;
 
 	PoolAllocator(size_t blocksRequested);
 
-	uint32_t* allocateElementInPool(uint32_t element);
+	T* allocateElementInPool(T element);
 
-	void deallocateElementInPool(uint32_t* ptrToElementToBeFreed);
+	void deallocateElementInPool(T* ptrToElementToBeFreed);
+
+	bool isEmpty() const;
 
 	~PoolAllocator();
 };
+
+#include "PoolAllocator.inl"
 

@@ -24,12 +24,15 @@
     <ClInclude Include="PoolAllocator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MemoryManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="PoolAllocator.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="MemoryManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -38,6 +41,9 @@
       <Filter>Source Files</Filter>
     </None>
     <None Include="DoubleEndedStackAllocator.inl">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="PoolAllocator.inl">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>

@@ -2,10 +2,10 @@
 #include <assert.h>
 
 
-
-PoolAllocator::PoolAllocator(size_t blocksRequested) : m_blocksInPool(blocksRequested), m_currentlyFreeBlocks(m_blocksInPool)
+template<typename T>
+PoolAllocator<T>::PoolAllocator(size_t blocksRequested) : m_blocksInPool(blocksRequested), m_currentlyFreeBlocks(m_blocksInPool)
 {
-	m_blocks = new uint32_t[m_blocksInPool];
+	m_blocks = new T[m_blocksInPool];
 	m_freeBlocks = new bool[m_blocksInPool];
 
 	for (int i = 0; i < m_blocksInPool; i++)
@@ -14,10 +14,11 @@ PoolAllocator::PoolAllocator(size_t blocksRequested) : m_blocksInPool(blocksRequ
 	}
 }
 
-uint32_t* PoolAllocator::allocateElementInPool(uint32_t element)
+template<typename T>
+T* PoolAllocator<T>::allocateElementInPool(T element)
 {
 
-	uint32_t* pointerToData = nullptr;
+	T* pointerToData = nullptr;
 
 	assert(m_currentlyFreeBlocks > 0);
 
@@ -37,19 +38,28 @@ uint32_t* PoolAllocator::allocateElementInPool(uint32_t element)
 	return pointerToData;
 }
 
-void PoolAllocator::deallocateElementInPool(uint32_t* ptrToElementToBeFreed)
+template<typename T>
+void PoolAllocator<typename T>::deallocateElementInPool(T* ptrToElementToBeFreed)
 {
 	assert(m_currentlyFreeBlocks  < m_blocksInPool);
 
 	int offset = ptrToElementToBeFreed - m_blocks;
 
 	//Do something with the previously allocated value or ?
+	//Figure out what you do with the value
 
 	m_freeBlocks[offset] = true;
 	m_currentlyFreeBlocks++;
 }
 
-PoolAllocator::~PoolAllocator()
+template<typename T>
+bool PoolAllocator<T>::isEmpty() const
+{
+	return (m_currentlyFreeBlocks == 0);
+}
+
+template<typename T>
+PoolAllocator<T>::~PoolAllocator()
 {
 	delete[] m_blocks;
 }

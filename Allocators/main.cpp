@@ -7,10 +7,11 @@
 int main()
 {
 
-	PoolAllocator p(3);
-	uint32_t *a = p.allocateElementInPool(0);
-	uint32_t *b = p.allocateElementInPool(1);
-	uint32_t *c = p.allocateElementInPool(2);
-	uint32_t *d = p.allocateElementInPool(3);
+	PoolAllocator<int> p(3);
+	int *a = p.allocateElementInPool(0);
+	int *b = p.allocateElementInPool(1);
+	int *c = p.allocateElementInPool(2);
+	int *d = p.allocateElementInPool(3);
 	std::cin.get();
+
 }

@@ -116,15 +116,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="DoubleEndedStackAllocator.h" />
+    <ClInclude Include="MemoryManager.h" />
     <ClInclude Include="PoolAllocator.h" />
     <ClInclude Include="StackAllocator.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="PoolAllocator.cpp" />
+    <ClCompile Include="MemoryManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DoubleEndedStackAllocator.inl" />
+    <None Include="PoolAllocator.inl" />
     <None Include="StackAllocator.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
