@@ -84,6 +84,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -115,16 +116,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CustomSmartPointer.h" />
     <ClInclude Include="DoubleEndedStackAllocator.h" />
     <ClInclude Include="MemoryManager.h" />
     <ClInclude Include="PoolAllocator.h" />
     <ClInclude Include="StackAllocator.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CustomSmartPointer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MemoryManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="CustomSmartPointer.inl" />
     <None Include="DoubleEndedStackAllocator.inl" />
     <None Include="PoolAllocator.inl" />
     <None Include="StackAllocator.inl" />

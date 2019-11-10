@@ -3,15 +3,40 @@
 #include "StackAllocator.h"
 #include "DoubleEndedStackAllocator.h"
 #include "PoolAllocator.h"
+#include "CustomSmartPointer.h"
 
+struct Vector
+{
+	int x;
+	int y;
+};
+
+
+class Test
+{
+public:
+
+	int a;
+	int b;
+
+	Test(int x, int y) : a(x), b(y) {};
+};
 int main()
 {
 
-	PoolAllocator<int> p(3);
-	int *a = p.allocateElementInPool(0);
-	int *b = p.allocateElementInPool(1);
-	int *c = p.allocateElementInPool(2);
-	int *d = p.allocateElementInPool(3);
+
+	std::cout << "Before" << std::endl;
+
+	{
+		CustomSmartPointer<Test> t = CustomSmartPointer<Test>(new Test(1, 2));
+		CustomSmartPointer<Test> cone = t;
+		CustomSmartPointer<Test> ctwo = t;
+	}
+
+	std::cout << "After" << std::endl;
+
+	//std::cout << *t << std::endl;
+
 	std::cin.get();
 
 }
