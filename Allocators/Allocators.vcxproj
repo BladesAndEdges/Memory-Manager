@@ -123,7 +123,6 @@
     <ClInclude Include="StackAllocator.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CustomSmartPointer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MemoryManager.cpp" />
   </ItemGroup>
