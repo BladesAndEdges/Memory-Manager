@@ -124,11 +124,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MemoryManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CustomSmartPointer.inl" />
     <None Include="DoubleEndedStackAllocator.inl" />
+    <None Include="MemoryManager.inl" />
     <None Include="PoolAllocator.inl" />
     <None Include="StackAllocator.inl" />
   </ItemGroup>

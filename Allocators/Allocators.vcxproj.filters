@@ -35,9 +35,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MemoryManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="StackAllocator.inl">
@@ -50,6 +47,9 @@
       <Filter>Source Files</Filter>
     </None>
     <None Include="CustomSmartPointer.inl">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="MemoryManager.inl">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>
