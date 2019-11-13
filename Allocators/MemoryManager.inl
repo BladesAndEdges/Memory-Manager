@@ -57,7 +57,7 @@ inline T* MemoryManager<T>::allocateElement(const T& element)
 }
 
 /*
-
+	Allocation on the DoubleEndedStackAlloctor
 */
 template<typename T>
 inline void MemoryManager<T>::allocateElement(const T& element, DoubleStack side)
@@ -86,6 +86,10 @@ inline void MemoryManager<T>::deallocateElement()
 	m_stackAllocator->popElementFromStack();
 }
 
+/*
+	We only need to know which side we wish to deallocate from, thus the only argument
+	is specified by the given side.
+*/
 template<typename T>
 inline void MemoryManager<T>::deallocateElement(DoubleStack side)
 {
@@ -133,6 +137,10 @@ inline bool MemoryManager<T>::checkIfActive()
 	}
 }
 
+/*
+	Delete the memory
+	Set all the pointers to nullptr
+*/
 template<typename T>
 inline MemoryManager<T>::~MemoryManager()
 {

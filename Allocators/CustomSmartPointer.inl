@@ -10,6 +10,9 @@ CustomSmartPointer<T>::CustomSmartPointer(T* data) : m_internalPointer(data),
 	std::cout << "Constructor called" << std::endl;
 }
 
+/*
+	Copy constructor
+*/
 template<typename T>
 inline CustomSmartPointer<T>::CustomSmartPointer(const CustomSmartPointer & other) : m_internalPointer(other.m_internalPointer), 
 																					m_refCounter(other.m_refCounter),
@@ -20,6 +23,9 @@ inline CustomSmartPointer<T>::CustomSmartPointer(const CustomSmartPointer & othe
 	(*m_refCounter)++;
 }
 
+/*
+Destructor. Would delete memory only if no instances that reference it remain
+*/
 template<typename T>
 CustomSmartPointer<T>::~CustomSmartPointer()
 {
@@ -37,6 +43,7 @@ CustomSmartPointer<T>::~CustomSmartPointer()
 	}
 }
 
+/*Overloaded operators*/
 template<typename T>
 T& CustomSmartPointer<T>::operator*()
 {
