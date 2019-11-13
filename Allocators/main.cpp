@@ -399,12 +399,90 @@ int main()
 
 
 /*XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX*/
-MemoryManager<int> mm(AllocationStrategy::STACK, 10);
 
+MemoryManager<int> iMM(AllocationStrategy::STACK, 3);
+MemoryManager<Vector> vecMM(AllocationStrategy::DOUBLESTACK, 3);
+MemoryManager<TestClass> testMM(AllocationStrategy::POOL, 3);
+
+//// The memory manager is simply a wrapper. The functions it encapsualtes were tested above, and proven to work.//
+//// The below code is simply a demonstration, per se, of how it should be used //
+/*--------------------------------------------------------------------------------------------------------*/
+////1. Testing that we can properly initialize the memory manager.
+//
+//iMM.allocateElement(1);
+//iMM.allocateElement(2);
+//iMM.allocateElement(3);
+//
+//Vector v1(0.0f, 1.0f);
+//Vector v2(1.0f, 2.0f);
+//Vector v3(2.0f, 3.0f);
+//
+//vecMM.allocateElement(v1, DoubleStack::BOTTOM);
+//vecMM.allocateElement(v2, DoubleStack::TOP);
+//vecMM.allocateElement(v3, DoubleStack::TOP);
+//
+//TestClass t1;
+//TestClass t2(1, 1);
+//TestClass t3(2, 2);
+//
+//TestClass* first = testMM.allocateElement(t1);
+//TestClass* second = testMM.allocateElement(t2);
+//TestClass* third = testMM.allocateElement(t3);
+//
+//std::cout << first->a << " " << first->b << std::endl;
+//std::cout << second->a << " " << second->b << std::endl;
+//std::cout << third->a << " " << third->b << std::endl;
+/*------------------------------------------------------------------------------------------------*/
+
+
+
+/*--------------------------------------------------------------------------------------------------------*/
+//2. Demonstrating the allocation function throws an assertion error as it should. Uncomment a code block to test
+//		on all of the structures the manager provides. Make sure to comment out the previously tested section.
+
+//iMM.allocateElement(1);
+//iMM.allocateElement(2);
+//iMM.allocateElement(3);
+//iMM.allocateElement(4);
+
+//Vector v1(0.0f, 1.0f);
+//Vector v2(1.0f, 2.0f);
+//Vector v3(2.0f, 3.0f);
+//Vector v4(5.0f, 3.0f);
+//
+//vecMM.allocateElement(v1, DoubleStack::BOTTOM);
+//vecMM.allocateElement(v2, DoubleStack::TOP);
+//vecMM.allocateElement(v3, DoubleStack::TOP);
+//vecMM.allocateElement(v4, DoubleStack::TOP);
+
+//TestClass t1;
+//TestClass t2(0, 1);
+//TestClass t3(0, 1);
+//TestClass t4(1, 1);
+
+//testMM.allocateElement(t1);
+//testMM.allocateElement(t2);
+//testMM.allocateElement(t3);
+//testMM.allocateElement(t4);
+/*------------------------------------------------------------------------------------------------*/
+
+
+
+/*------------------------------------------------------------------------------------------------*/
+//3. Testing if the memory manager would underflow. All of them should throw an assertion error.
+
+//iMM.deallocateElement();
+
+//vecMM.deallocateElement(DoubleStack::BOTTOM);
+
+//vecMM.deallocateElement(DoubleStack::TOP);
+
+//TestClass* test = new TestClass(2,2);
+//testMM.deallocateElement(test);
 
 
 /*XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX*/
-//CustomSmartPointer<int> ptr(new int(4));
+CustomSmartPointer<MemoryManager<int>> ptr(new MemoryManager<int>(AllocationStrategy::STACK, 5));
 
 
 

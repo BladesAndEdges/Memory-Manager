@@ -42,17 +42,19 @@ inline MemoryManager<T>::MemoryManager(AllocationStrategy allocationStrategy, si
 	Allocation of an element on the data structure chosen.
 */
 template<typename T>
-inline void MemoryManager<T>::allocateElement(const T& element)
+inline T* MemoryManager<T>::allocateElement(const T& element)
 {
 	switch (m_allocationStrategy)
 	{
 	case AllocationStrategy::STACK:
-		m_stackAllocator->
+		m_stackAllocator->pushElementOnStack(element);
+		return nullptr;
 		break;
 	case AllocationStrategy::POOL:
-		std::cout << "Pool Allocator used" << std::endl;
+		return m_poolAllocator->allocateElementInPool(element);
 	default:
 		std::exception("You might've chosen the DOUBLE-ENDED Stack allocaiton startegy. Please use the corresponding allocation function.");
+		return nullptr;
 		break;
 	}
 }
@@ -64,8 +66,10 @@ inline void MemoryManager<T>::allocateElement(const T& element, DoubleStack side
 	{
 
 	case DoubleStack::BOTTOM:
+		m_doubleEndedStackAllocator->allocateOnTheBottomStack(element);
 		break;
 	case DoubleStack::TOP:
+		m_doubleEndedStackAllocator->allocateOnTheTopStack(element);
 		break;
 	default:
 		std::exception("Unknown member of DoubleStack used.");
@@ -79,22 +83,54 @@ inline void MemoryManager<T>::allocateElement(const T& element, DoubleStack side
 template<typename T>
 inline void MemoryManager<T>::deallocateElement()
 {
+	m_stackAllocator->popElementFromStack();
 }
 
 template<typename T>
 inline void MemoryManager<T>::deallocateElement(DoubleStack side)
 {
+	switch (side)
+	{
+	case DoubleStack::BOTTOM:
+		m_doubleEndedStackAllocator->deallocateFromTheBottomStack();
+		break;
+	case DoubleStack::TOP:
+		m_doubleEndedStackAllocator->deallocateFromTheTopStack();
+	default:
+		std::exception("Unknown member of DoubleStack used.");
+	}
 }
 
 template<typename T>
-inline T* MemoryManager<T>::deallocateElement(T* element)
+inline void MemoryManager<T>::deallocateElement(T* element)
 {
+	m_poolAllocator->deallocateElementInPool(element);
 }
 
 template<typename T>
 inline bool MemoryManager<T>::checkIfActive()
 {
-	return false;
+	/*
+		isEmpty() would return true if there are no elements residing in the allocator.
+		We return the negation of this as our answer if the memory manager is currently active, i.e. is being
+		used and has elements in it.
+
+		So if isEmpty() returns false, then conversely we would see that it returns true for the checkIfActive function
+	*/
+	switch (m_allocationStrategy)
+	{
+	case AllocationStrategy::STACK :
+		return !(m_stackAllocator->isEmpty());
+		break;
+	case AllocationStrategy::DOUBLESTACK :
+		return !(m_doubleEndedStackAllocator->isEmpty());
+		break;
+	case AllocationStrategy::POOL:
+		return !(m_poolAllocator->isEmpty());
+	default:
+		return false;
+		break;
+	}
 }
 
 template<typename T>

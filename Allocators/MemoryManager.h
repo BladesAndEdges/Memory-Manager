@@ -45,12 +45,11 @@ public:
 
 	inline MemoryManager(AllocationStrategy allocationStrategy, size_t amountOfDataInBlocks);
 
-	void allocateElement(const T& element);
-	void allocateElement(const T& element, DoubleStack side );
 	T* allocateElement(const T& element);
+	void allocateElement(const T& element, DoubleStack side );
 
 	void deallocateElement();
-	void deallocateElements(DoubleStack side);
+	void deallocateElement(DoubleStack side);
 	void deallocateElement(T* position);
 
 	bool checkIfActive();
