@@ -1,34 +1,53 @@
 #pragma once
 #include "MemoryManager.h"
+#include <assert.h>
 
-template<typename T, typename U>
-inline MemoryManager<T, U>::MemoryManager(AllocationStrategy allocationStrategy, uint32_t amountOfDataInBlocks) : m_allocationStrategy(allocationStrategy), 
+/*
+	The constructor takes in the type of allocation strategy that should be used in the memory manager.
+	The second argument is the amount of elements that will be set as a maximum for the memory manager to handle.
+*/
+template<typename T>
+inline MemoryManager<T>::MemoryManager(AllocationStrategy allocationStrategy, size_t amountOfDataInBlocks) : m_allocationStrategy(allocationStrategy), 
 																												m_amountOfDataInBlocks(amountOfDataInBlocks),
-																												m_elementsManaged(0)
+																												m_elementsManaged(0), 
+																												m_stackAllocator(nullptr), 
+																												m_doubleEndedStackAllocator(nullptr), 
+																												m_poolAllocator(nullptr)
+																						
 {
+
+	/*
+		Choose allocation strategy.
+	*/
 	switch (m_allocationStrategy)
 	{
 	case AllocationStrategy::STACK:
 		std::cout << "Stack called" << std::endl;
+		m_stackAllocator = new StackAllocator<T>(m_amountOfDataInBlocks);
 		break;
 	case AllocationStrategy::DOUBLESTACK:
 		std::cout << "Double Ended Stack" << std::endl;
+		m_doubleEndedStackAllocator = new DoubleEndedStackAllocator<T>(m_amountOfDataInBlocks);
 		break;
 	case AllocationStrategy::POOL:
 		std::cout << "Pool Allocator used" << std::endl;
+		m_poolAllocator = new PoolAllocator<T>(m_amountOfDataInBlocks);
 	default:
 		std::exception("Unknown allocation strategy requested.");
 		break;
 	}
 }
 
-template<typename T, typename U>
-inline void MemoryManager<T, U>::allocateElement(const U & element)
+/*
+	Allocation of an element on the data structure chosen.
+*/
+template<typename T>
+inline void MemoryManager<T>::allocateElement(const T& element)
 {
 	switch (m_allocationStrategy)
 	{
 	case AllocationStrategy::STACK:
-		std::cout << "Stack called" << std::endl;
+		m_stackAllocator->
 		break;
 	case AllocationStrategy::POOL:
 		std::cout << "Pool Allocator used" << std::endl;
@@ -38,8 +57,8 @@ inline void MemoryManager<T, U>::allocateElement(const U & element)
 	}
 }
 
-template<typename T, typename U>
-inline void MemoryManager<T, U>::allocateElement(const U & element, DoubleStack side)
+template<typename T>
+inline void MemoryManager<T>::allocateElement(const T& element, DoubleStack side)
 {
 	switch (side)
 	{
@@ -49,33 +68,55 @@ inline void MemoryManager<T, U>::allocateElement(const U & element, DoubleStack 
 	case DoubleStack::TOP:
 		break;
 	default:
-		std::exception("Unknown member of DoubleStack used.")
-		break;
+		std::exception("Unknown member of DoubleStack used.");
 	}
 }
 
-template<typename T, typename U>
-inline void MemoryManager<T, U>::deallocateElements()
+/*
+	Due to the differences between the deallocation functions, 
+	they had to be overloaded for the different allocation structure.
+*/
+template<typename T>
+inline void MemoryManager<T>::deallocateElement()
 {
 }
 
-template<typename T, typename U>
-inline void MemoryManager<T, U>::deallocateElements(DoubleStack side)
+template<typename T>
+inline void MemoryManager<T>::deallocateElement(DoubleStack side)
 {
 }
 
-template<typename T, typename U>
-inline U* MemoryManager<T, U>::deallocateElements(uint32_t position)
+template<typename T>
+inline T* MemoryManager<T>::deallocateElement(T* element)
 {
 }
 
-template<typename T, typename U>
-inline bool MemoryManager<T, U>::checkIfActive()
+template<typename T>
+inline bool MemoryManager<T>::checkIfActive()
 {
 	return false;
 }
 
-template<typename T, typename U>
-inline MemoryManager<T, U>::~MemoryManager()
+template<typename T>
+inline MemoryManager<T>::~MemoryManager()
 {
+	switch (m_allocationStrategy)
+	{
+
+	case AllocationStrategy::STACK:
+		delete m_stackAllocator;
+		m_stackAllocator = nullptr;
+		break;
+	case AllocationStrategy::DOUBLESTACK:
+		delete m_doubleEndedStackAllocator;
+		m_doubleEndedStackAllocator = nullptr;
+	case AllocationStrategy::POOL:
+		delete m_poolAllocator;
+		m_poolAllocator = nullptr;
+
+	default:
+		m_stackAllocator = nullptr;
+		m_doubleEndedStackAllocator = nullptr;
+		m_poolAllocator= nullptr;
+	}
 }

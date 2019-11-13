@@ -1,4 +1,5 @@
 #include <assert.h>
+#include "PoolAllocator.h"
 
 /*
 	This methods initializes a memory pool, by allocating memory equal to blocksRequested * sizeof(T) 
@@ -75,12 +76,18 @@ void PoolAllocator<typename T>::deallocateElementInPool(T* ptrToElementToBeFreed
 	assert(m_currentlyFreeBlocks  < m_blocksInPool);
 
 	/*Use address subtraction to get the exact offset*/
-	int offset = ptrToElementToBeFreed - m_blocks;
+	size_t offset = ptrToElementToBeFreed - m_blocks;
 
 
 	/*Set the deallocated block to true (free)*/
 	m_freeBlocks[offset] = true;
 	m_currentlyFreeBlocks++;
+}
+
+template<typename T>
+inline size_t PoolAllocator<T>::sizeOfPool() const
+{
+	return m_blocksInPool - m_currentlyFreeBlocks;
 }
 
 /*
@@ -89,7 +96,15 @@ void PoolAllocator<typename T>::deallocateElementInPool(T* ptrToElementToBeFreed
 template<typename T>
 bool PoolAllocator<T>::isEmpty() const
 {
-	return (m_currentlyFreeBlocks == 0);
+	for (int i = 0; i < m_blocksInPool; i++)
+	{
+		if (m_freeBlocks[i] == false)
+		{
+			return false;
+		}
+	}
+
+	return true;
 }
 
 /*

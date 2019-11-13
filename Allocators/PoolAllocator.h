@@ -51,6 +51,8 @@ public:
 
 	void deallocateElementInPool(T* ptrToElementToBeFreed);
 
+	size_t sizeOfPool() const;
+
 	bool isEmpty() const;
 
 	~PoolAllocator();

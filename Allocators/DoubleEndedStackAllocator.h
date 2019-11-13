@@ -56,6 +56,7 @@ public:
 
 	bool isEmpty();
 
+	uint32_t sizeOfDoubleStack();
 
 	~DoubleEndedStackAllocator();
 };

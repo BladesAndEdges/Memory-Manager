@@ -1,5 +1,6 @@
 #include <iostream>
 #include <assert.h>
+#include "DoubleEndedStackAllocator.h"
 
 /*
 	Allocates memory for sizeof(T) * bufferCapacity amount of elements. 
@@ -40,6 +41,14 @@ void DoubleEndedStackAllocator<T>::allocateOnTheBottomStack(const T& element)
 
 	Params:
 	const T& element - the element that will be stored at the top side of the stack.
+
+
+	A couple of notes:
+
+	I do understand that it would've been best if the code actually allowed the pop methods to return
+	the actual values, but this is an easy fix, so I decided to leave it as it is for simplicity. 
+	The goal of the coursework focused on the memory management, and not on the requirements to build a proper
+	DoubleEnded stack that can be used with the values inside (?).
 */
 template<typename T>
 void DoubleEndedStackAllocator<T>::allocateOnTheTopStack(const T& element)
@@ -48,7 +57,7 @@ void DoubleEndedStackAllocator<T>::allocateOnTheTopStack(const T& element)
 		Since our starting point would be at index 0, the last index would be equal to 
 		theAmountTheStackCanStore - 1.
 	*/
-	uint32_t offset = m_totalBufferCapacity - 1;
+	size_t offset = m_totalBufferCapacity - 1;
 
 	/*Check if we've reached the maximum stack capacity*/
 	assert((m_elementsAllocatedOnBottomStack + m_elementsAllocatedOnTopStack) < m_totalBufferCapacity);
@@ -87,11 +96,17 @@ void DoubleEndedStackAllocator<T>::deallocateFromTheTopStack()
 template<typename T>
 bool DoubleEndedStackAllocator<T>::isEmpty()
 {
-	return (m_totalBufferCapacity == 0);
+	return (m_elementsAllocatedOnTopStack == 0 && m_elementsAllocatedOnBottomStack == 0);
+}
+
+template<typename T>
+inline uint32_t DoubleEndedStackAllocator<T>::sizeOfDoubleStack()
+{
+	return m_elementsAllocatedOnBottomStack + m_elementsAllocatedOnTopStack;
 }
 
 /*
-	Free th preallocated memory
+	Free the preallocated memory
 */
 template<typename T>
 DoubleEndedStackAllocator<T>::~DoubleEndedStackAllocator()

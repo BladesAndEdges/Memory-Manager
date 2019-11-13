@@ -7,9 +7,9 @@
 #include <exception>
 
 /*
-
+	Enum class representing what 
+	allocation strategy is used.
 */
-
 enum class AllocationStrategy
 {
 	STACK, 
@@ -17,34 +17,41 @@ enum class AllocationStrategy
 	POOL
 };
 
+/*
+	Enum class for indicating
+	where we want to allocate/deallocate
+	in the double stack
+*/
 enum class DoubleStack
 {
 	BOTTOM, 
 	TOP
 };
 
-template<typename T, typename U>
+template<typename T>
 class MemoryManager
 {
 
 public:
 
-	StackAllocator<T> m_stack;
-	DoubleEndedStackAllocator<T> m_doubleEndedStack;
-	PoolAllocator<T> m_poolAllocator;
+	StackAllocator<T> *m_stackAllocator;
+	DoubleEndedStackAllocator<T> *m_doubleEndedStackAllocator;
+	PoolAllocator<T> *m_poolAllocator;
 
 	AllocationStrategy m_allocationStrategy;
 
 	uint32_t m_elementsManaged;
+	size_t m_amountOfDataInBlocks;
 
-	inline MemoryManager(AllocationStrategy allocationStrategy, uint32_t amountOfDataInBlocks);
+	inline MemoryManager(AllocationStrategy allocationStrategy, size_t amountOfDataInBlocks);
 
-	void allocateElement(const U& element);
-	void allocateElement(const U& element, DoubleStack side );
+	void allocateElement(const T& element);
+	void allocateElement(const T& element, DoubleStack side );
+	T* allocateElement(const T& element);
 
-	void deallocateElements();
+	void deallocateElement();
 	void deallocateElements(DoubleStack side);
-	U* deallocateElements(uint32_t position);
+	void deallocateElement(T* position);
 
 	bool checkIfActive();
 
