@@ -13,6 +13,12 @@
 #include "MemoryManager.h"
 #include "CustomSmartPointer.h"
 
+template<typename T>
+void print(CustomSmartPointer<T> a)
+{
+	std::cout << *a << std::endl;
+}
+
 
 /*
 	Below I have created global instances of different data 
@@ -558,6 +564,8 @@ MemoryManager<TestClass> testMM(AllocationStrategy::POOL, 3);
 //	CustomSmartPointer<Vector> vecPtr(new Vector(0, 1)); // Constructor called
 //	CustomSmartPointer<TestClass> testPtr(new TestClass(1, 0)); // Constructor called
 //
+//	print(iPtr); // Prints 10, calls copy constructor, then calls it's destructor
+//
 //
 //	std::cout << *iPtr << std::endl;
 //	std::cout << *fPtr << std::endl;
@@ -600,7 +608,7 @@ MemoryManager<TestClass> testMM(AllocationStrategy::POOL, 3);
 
 
 /*****************************************************************************************************/
-/*5. Testing that it works for the memory manager as well.*/
+/*3. Testing that it works for the memory manager as well.*/
 
 
 /*------------------------With a Stack--------------------------------------------------------------*/
