@@ -48,10 +48,3 @@ T* CustomSmartPointer<T>::operator->()
 {
 	return m_internalPointer;
 }
-
-//
-//template<typename T>
-//T& CustomSmartPointer<T>::operator*()
-//{
-//	return *m_internalBuffer;
-//}

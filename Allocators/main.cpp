@@ -480,12 +480,192 @@ MemoryManager<TestClass> testMM(AllocationStrategy::POOL, 3);
 //TestClass* test = new TestClass(2,2);
 //testMM.deallocateElement(test);
 
+/*------------------------------------------------------------------------------------------------*/
+
+
+
+/*------------------------------------------------------------------------------------------------*/
+//4. Checking to see if it detects it as active.
+
+//iMM.deallocateElement();
+
+//vecMM.deallocateElement(DoubleStack::BOTTOM);
+
+//vecMM.deallocateElement(DoubleStack::TOP);
+
+//TestClass* test = new TestClass(2,2);
+//testMM.deallocateElement(test);
+
+/*------------------------------------------------------------------------------------------------*/
+
+
+
+/*------------------------------------------------------------------------------------------------*/
+////5. Testing we can use the value from the memory manager when the pool is selected.
+//
+//TestClass t1(0, 1);
+//
+//TestClass* testPtr = testMM.allocateElement(t1);
+//
+//std::cout << testPtr << std::endl;
+//std::cout << testPtr->a << " " << testPtr->b << std::endl;
+
+/*------------------------------------------------------------------------------------------------*/
+
+
+
+/*------------------------------------------------------------------------------------------------*/
+////6. Checking if the memory manager is still active. 
+
+//std::cout << std::boolalpha << iMM.checkIfActive() << std::endl; // false
+//iMM.allocateElement(0);
+//std::cout << std::boolalpha << iMM.checkIfActive() << std::endl; // true
+//
+//Vector v(0.0f, 1.0f);
+//
+//std::cout << std::boolalpha << vecMM.checkIfActive() << std::endl; // false
+//vecMM.allocateElement(v, DoubleStack::BOTTOM);
+//std::cout << std::boolalpha << vecMM.checkIfActive() << std::endl; // true
+//
+//std::cout << std::boolalpha << vecMM.checkIfActive() << std::endl; // true
+//vecMM.allocateElement(v, DoubleStack::TOP);
+//
+//vecMM.deallocateElement(DoubleStack::BOTTOM);
+//vecMM.deallocateElement(DoubleStack::TOP);
+//std::cout << std::boolalpha << vecMM.checkIfActive() << std::endl; //false
+//
+//TestClass t(0, 0);
+//
+//std::cout << std::boolalpha << testMM.checkIfActive() << std::endl; // false
+//testMM.allocateElement(t);
+//std::cout << std::boolalpha << testMM.checkIfActive() << std::endl; //true
+
+/*--------------------------------------------------------------------------------------------*/
+/*XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX*/
+
+
 
 /*XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX*/
-CustomSmartPointer<MemoryManager<int>> ptr(new MemoryManager<int>(AllocationStrategy::STACK, 5));
+
+
+/*1. Testing the creation and access of teh pointers. Destructors called as well.
+	Access, creation, destruction
+*/
+//{
+//	CustomSmartPointer<int> iPtr(new int(10)); // Constructor called
+//	CustomSmartPointer<float> fPtr(new float(10.0f)); // Constructor called 
+//	CustomSmartPointer<std::string> strPtr(new std::string("Daniel")); // Constructor called
+//	CustomSmartPointer<Vector> vecPtr(new Vector(0, 1)); // Constructor called
+//	CustomSmartPointer<TestClass> testPtr(new TestClass(1, 0)); // Constructor called
+//
+//
+//	std::cout << *iPtr << std::endl;
+//	std::cout << *fPtr << std::endl;
+//	std::cout << vecPtr->x << std::endl;
+//	std::cout << testPtr->a << " " << testPtr->b << std::endl;
+//
+//} // Five destructors prints, each with a corresponding deleted memory
+
+/*****************************************************************************************************/
 
 
 
-	std::cin.get();
+/*****************************************************************************************************/
+///*2. Testing managed reference counting*/
+//{
+//	CustomSmartPointer<int> p(new int(10)); //Constructor called
+//
+//	std::cout << p.m_internalPointer << std::endl; // print the adress of the internal pointer
+//	std::cout << *p << std::endl; // Print 10
+//
+//	{
+//		CustomSmartPointer<int> ref1 = p; // Copy constructor called
+//		CustomSmartPointer<int> ref2 = p; // Copy constructor called
+//
+//
+//		/*Both should print the same address as that of p*/
+//		std::cout << ref1.m_internalPointer << std::endl;
+//		std::cout << ref2.m_internalPointer << std::endl;
+//
+//		/*Both should print 10*/
+//		std::cout << *ref1 << std::endl;
+//		std::cout << *ref2 << std::endl;
+//
+//	} // Two destructors of the copies called 
+//
+//} // Destructor of p called, and memory deleted
+
+/*****************************************************************************************************/
+
+
+
+/*****************************************************************************************************/
+/*5. Testing that it works for the memory manager as well.*/
+
+
+/*------------------------With a Stack--------------------------------------------------------------*/
+//CustomSmartPointer<MemoryManager<int>> mmPtr(new MemoryManager<int>(AllocationStrategy::STACK, 3));
+//std::cout << std::boolalpha << mmPtr->checkIfActive() << std::endl;
+//mmPtr->allocateElement(0);
+//mmPtr->allocateElement(2);
+//mmPtr->allocateElement(3);
+//mmPtr->deallocateElement();
+//mmPtr->deallocateElement();
+//std::cout << std::boolalpha << mmPtr->checkIfActive() << std::endl;
+
+/*-----------------------------------------------------------------------------------------------------*/
+
+
+
+/*--------------------------------With a DoubleStack----------------------------------------------------*/
+
+//Vector vec(0.0f, 1.0f);
+//
+//
+//CustomSmartPointer<MemoryManager<Vector>> vecPtr(new MemoryManager<Vector>(AllocationStrategy::DOUBLESTACK, 3));
+//std::cout << std::boolalpha << vecPtr->checkIfActive() << std::endl;
+//std::cout << std::boolalpha << vecPtr->m_doubleEndedStackAllocator->isEmpty() << std::endl;
+//vecPtr->allocateElement(vec, DoubleStack::BOTTOM);
+//vecPtr->allocateElement(vec, DoubleStack::BOTTOM);
+//vecPtr->allocateElement(vec, DoubleStack::TOP);
+//
+//std::cout << std::boolalpha << vecPtr->checkIfActive() << std::endl;
+//
+//vecPtr->deallocateElement(DoubleStack::BOTTOM);
+//vecPtr->deallocateElement(DoubleStack::BOTTOM);
+//vecPtr->deallocateElement(DoubleStack::TOP);
+//
+//std::cout << std::boolalpha << vecPtr->checkIfActive() << std::endl;
+
+/*-----------------------------------------------------------------------------------------------------*/
+
+
+
+/*---------------------------------With a poll allocator-----------------------------------------------*/
+
+//TestClass one(0, 1);
+//TestClass two(1, 2);
+//TestClass three(3, 4);
+//TestClass four(5, 6);
+//
+//
+//CustomSmartPointer<MemoryManager<TestClass>> testPtr(new MemoryManager<TestClass>(AllocationStrategy::POOL, 3));
+//
+//std::cout << std::boolalpha << testPtr->checkIfActive() << std::endl;
+//CustomSmartPointer<TestClass> t1 = testPtr->allocateElement(one);
+//std::cout << t1->a << std::endl;
+//std::cout << t1->b << std::endl;
+//CustomSmartPointer<TestClass> t2 = testPtr->allocateElement(two);
+//std::cout << t2->a << std::endl;
+//std::cout << t2->b << std::endl;
+//CustomSmartPointer<TestClass> t3 = testPtr->allocateElement(three);
+//std::cout << t3->a << std::endl;
+//std::cout << t3->b << std::endl;
+//
+//std::cout << std::boolalpha << testPtr->checkIfActive() << std::endl;
+
+/*-----------------------------------------------------------------------------------------------------*/
+
+std::cin.get();
 
 }

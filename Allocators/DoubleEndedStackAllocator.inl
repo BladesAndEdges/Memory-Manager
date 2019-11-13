@@ -96,7 +96,7 @@ void DoubleEndedStackAllocator<T>::deallocateFromTheTopStack()
 template<typename T>
 bool DoubleEndedStackAllocator<T>::isEmpty()
 {
-	return (m_elementsAllocatedOnTopStack == 0 && m_elementsAllocatedOnBottomStack == 0);
+	return ((m_elementsAllocatedOnTopStack + m_elementsAllocatedOnBottomStack) == 0);
 }
 
 template<typename T>

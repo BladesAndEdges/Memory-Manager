@@ -22,15 +22,12 @@ inline MemoryManager<T>::MemoryManager(AllocationStrategy allocationStrategy, si
 	switch (m_allocationStrategy)
 	{
 	case AllocationStrategy::STACK:
-		std::cout << "Stack called" << std::endl;
 		m_stackAllocator = new StackAllocator<T>(m_amountOfDataInBlocks);
 		break;
 	case AllocationStrategy::DOUBLESTACK:
-		std::cout << "Double Ended Stack" << std::endl;
 		m_doubleEndedStackAllocator = new DoubleEndedStackAllocator<T>(m_amountOfDataInBlocks);
 		break;
 	case AllocationStrategy::POOL:
-		std::cout << "Pool Allocator used" << std::endl;
 		m_poolAllocator = new PoolAllocator<T>(m_amountOfDataInBlocks);
 	default:
 		std::exception("Unknown allocation strategy requested.");
@@ -59,6 +56,9 @@ inline T* MemoryManager<T>::allocateElement(const T& element)
 	}
 }
 
+/*
+
+*/
 template<typename T>
 inline void MemoryManager<T>::allocateElement(const T& element, DoubleStack side)
 {
